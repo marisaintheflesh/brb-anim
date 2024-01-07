@@ -3,26 +3,33 @@ function random(max)
 	return Math.floor(Math.random() * max);
 }
 
-var ww = 300;
-var hh = 150; 
+var ww;
+var hh; 
 var w = 102;
 var h = 13;
 
 var x = 1;
 var y = 1;
-
-var fps=24;
+var timestamp = function() { return Date.now(); }
+var fps=60;
 var interval;
 var now, elapsed;
 var brb = new Image(w, h);
-
+var canvas;
+var ctx;
 function init()
 {
+  canvas = document.getElementById('canvas');
+  ctx = canvas.getContext('2d');
+  canvas.width = 640;
+  canvas.height = 360;
+  ww = canvas.width = canvas.offsetWidth;
+  hh = canvas.height = canvas.offsetHeight;
   brb.src = "brb.png";
   interval=1000/fps;
   then=Date.now();
   startTime=then;
-  draw();
+  draw(timestamp());
 }
 
 
@@ -32,9 +39,7 @@ var yspeed = 1;
 
 
 
-function draw() {
-  window.requestAnimationFrame(draw);
-  
+function draw(timestamp) {
   now = Date.now();
   
   elapsed = now - then;
@@ -44,8 +49,6 @@ function draw() {
 	  
 	  then = now - (elapsed % interval);
 	  
-	  
-	  var ctx = document.getElementById('canvas').getContext('2d');
 	  ctx.fillStyle = 'rgba(255,255,0,0.0)';
 	  ctx.clearRect(0,0,ww,hh); // clear canvas
 	  ctx.save();
@@ -65,7 +68,8 @@ function draw() {
 	  ctx.save();
 	  ctx.restore();
    }
+   window.requestAnimationFrame(draw);
   
 }
 
-window.onload = function(){init()};
+document.addEventListener("DOMContentLoaded", (event) => { init(); });
