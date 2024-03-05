@@ -1,6 +1,8 @@
-function random(max)
+function random(min, max)
 {
-	return Math.floor(Math.random() * max);
+    min = Math.ceil(min);
+   max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 var canvasWidth = 640;
@@ -8,8 +10,8 @@ var canvasHeight = 360;
 var w = 102;
 var h = 13;
 
-var x = random(canvasWidth - w - 1);
-var y = random(canvasHeight - h - 1); // < ^ the '- 1' is important, otherwise the image could potentially go in a straight line instead of diagonally
+var x = random(1, canvasWidth - w - 1);
+var y = random(1, canvasHeight - h - 1); // < ^ the '- 1' is important, otherwise the image could potentially go in a straight line instead of diagonally
 var timestamp = function() { return Date.now(); }
 var fps=60;
 var interval;
